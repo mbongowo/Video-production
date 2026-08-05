@@ -114,14 +114,26 @@ months, so your Python version matters more than your hardware here.
 |---|---|---|
 | `edge` | ✅ works | Default. No install beyond `pip install edge-tts` |
 | `piper` | ✅ works | `pip install piper-tts` + a `.onnx` voice. 61 MB, fully offline |
-| `chatterbox` | resolves on 3.14 | Pulls torch (~2.5 GB) |
-| `clone` (F5-TTS) | resolves on 3.14 | Pulls torch |
-| `kokoro` | ❌ **not on 3.14** | Needs `spacy`/`thinc`, which have no 3.14 wheels and fail to build. Use **Python 3.11-3.12** |
+| `chatterbox` | ❌ **installs, won't run on 3.14** | `resemble-perth`'s watermarker resolves to `None`, so model loading raises. Needs **3.11-3.12** |
+| `clone` (F5-TTS) | resolves on 3.14 | Pulls torch; not run end to end here |
+| `kokoro` | ❌ **not on 3.14** | Needs `spacy`/`thinc`, which have no 3.14 wheels and fail to build. Needs **3.11-3.12** |
 | `dia` | ❌ not on PyPI | Install from source: `pip install git+https://github.com/nari-labs/dia.git` |
 | `orpheus` | ❌ **not on Windows** | Depends on `vllm`, which is effectively Linux-only |
 
-**If you want kokoro — the natural-sounding, no-attribution option — build the venv on
-Python 3.11 or 3.12.** Everything else in this package works on any of 3.11-3.14.
+### The short version: use Python 3.12 for voice work
+
+**Python 3.14 is ahead of this ecosystem.** The animation, editing, cover, thumbnail and QA
+side of this package is fine on 3.14 — it only needs manim, numpy, Pillow and ffmpeg. But the
+good voice engines all fail on it, for unrelated reasons that amount to the same thing: their
+dependency stacks have not caught up.
+
+If narration quality matters to you, build the venv on **Python 3.12**. `edge` and `piper`
+work everywhere and are the fallback if you would rather not.
+
+> On chatterbox specifically: the failure is in Resemble's `perth` watermarker, which stamps
+> an inaudible provenance mark into cloned-voice audio. It can be bypassed. **Don't** — that
+> watermark is there so cloned speech can be identified as synthetic, and removing it to make
+> an install work is not a trade worth making.
 
 ### Voice cloning
 
