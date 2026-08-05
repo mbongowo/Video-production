@@ -1,0 +1,100 @@
+# The toolbox — every free and open tool, and where it fits
+
+Status key: **built in** (ships and works out of the box) · **adapter** (a module here calls
+it if you install it) · **companion** (run it separately; do not merge its code)
+
+---
+
+## Animation and composition
+
+| Tool | Licence | Status | Notes |
+|---|---|---|---|
+| **Manim Community** | MIT | **built in** | The animation engine. `ccvp/templates.py` |
+| **FFmpeg** | LGPL-2.1+ / GPL if built with x264 | **built in** | Mux, cover, format conversion. Install it; don't redistribute it |
+| **Blender** (VSE + 3D) | GPL-2.0+ | companion | Scriptable in Python. Enormous capability; run it as its own app |
+| **Kdenlive / Shotcut** | GPL | companion | GUI editors on the MLT framework, for hand-finishing |
+| **MLT `melt`** | LGPL | companion | The scriptable CLI under Kdenlive/Shotcut |
+| **Natron** | GPL-2.0 | companion | Node compositing, if you need After Effects-style work |
+| **OpenMontage** | **AGPL-3.0** | companion | Agentic real-footage production. Genuinely powerful — but AGPL, so never merge it in. See LICENSING.md |
+| **Remotion** | Source-available | — | Excluded: needs a paid company licence beyond 3 people |
+
+## Voice
+
+| Tool | Licence | Status | Notes |
+|---|---|---|---|
+| **Edge TTS** | GPL-3.0 tool / MS endpoint | **built in** (default) | ~400 voices, no key. Testing only — not for commercial use |
+| **Kokoro-82M** | Apache-2.0 | adapter `kokoro` | **Best natural voice that is fully permissive.** `pip install kokoro soundfile` |
+| **Chatterbox** | MIT | adapter `chatterbox` | **Cloning + emotion control.** The closest open equivalent to ElevenLabs |
+| **F5-TTS** | MIT | adapter `clone` | Zero-shot cloning from ~15s of audio |
+| **OpenVoice V2** | MIT | adapter `clone` | Cloning with tone/style control |
+| **Piper** | MIT | adapter `piper` | Fastest, fully offline, tiny |
+| **StyleTTS2** | MIT | — | Very natural; add as an adapter if you want it |
+| **Coqui XTTS-v2** | **CPML, non-commercial** | — | Excluded: cannot be used in work you sell |
+| **VibeVoice** | **Research only** | adapter (guarded) | Expressive and multi-speaker, but not licensed for commercial use |
+| **ElevenLabs** | SaaS | — | Excluded: paid, and the free tier requires attribution |
+
+## Captions and audio repair
+
+| Tool | Licence | Status | Notes |
+|---|---|---|---|
+| **whisper.cpp** | MIT | adapter | Word-accurate timings. `ccvp/captions.py` |
+| **faster-whisper** | MIT | adapter | Faster on GPU, same models |
+| **Demucs** | MIT | adapter | Split speech from music. `ccvp/enhance.py` |
+| **ffmpeg `loudnorm`** | — | **built in** | Normalise to -14 LUFS, what platforms target |
+
+Captions are not optional in practice — most feed video is watched muted. The free path
+(`srt_from_beats`) needs no extra install at all.
+
+## Picture repair and polish — `ccvp/enhance.py`
+
+| Tool | Licence | Notes |
+|---|---|---|
+| **auto-editor** | MIT/Unlicense | Cuts silence out of talking footage. Biggest single win on raw video |
+| **rembg** | MIT | Background removal without a green screen |
+| **Real-ESRGAN** | BSD-3 | 2–4x upscale for old or low-res footage |
+| **RIFE** | MIT | Frame interpolation for smooth slow motion |
+
+## Stock media and data — all free, none paid
+
+| Source | Terms | Status |
+|---|---|---|
+| **Pexels** | Free, commercial use allowed | adapter `ccvp/stock.py` |
+| **Pixabay** | Free, commercial use allowed | adapter `ccvp/stock.py` |
+| **Openverse** | CC-licensed search | companion — check each item's licence |
+| **Wikimedia Commons** | Mostly CC/PD | companion — attribution varies per file |
+| **Natural Earth** | **Public domain** | **built in** — `ccvp/geo.py`. No attribution, no share-alike |
+| **NASA imagery** | Public domain | companion — excellent for earth/space topics |
+| **OpenStreetMap** | ODbL | — Not used: attribution + share-alike on derived databases |
+
+Pexels and Pixabay need a free API key. There is no paid tier you can hit and no card to
+enter. The animated templates need no imagery at all, which is also the only path with zero
+third-party content risk.
+
+## Music
+
+| Approach | Terms | Status |
+|---|---|---|
+| **Synthesised bed** (`ccvp/music.py`) | **Yours — generated from sine waves** | **built in** |
+| Free Music Archive / Musopen | Per-track, varies | companion |
+| Epidemic / Artlist | Subscription | — Excluded: paid |
+
+The synthesised bed is the reason there is no music subscription here. Nothing to license,
+and no track for Content ID to match against.
+
+## Fonts — check these, people forget
+
+Manim uses whatever font you name. Many fonts bundled with an OS are licensed for viewing
+documents, not for embedding in video you sell. Safe, permissive families: **Inter**,
+**Roboto**, **Open Sans**, **Lato**, **Source Sans 3**, **DejaVu** — all SIL OFL or Apache.
+
+---
+
+## What ships versus what you add
+
+Out of the box you get a complete, professional video with **only** Manim + ffmpeg + edge-tts.
+Everything else in this table is a choice. The sensible upgrade path is:
+
+1. `pip install kokoro soundfile` — the voice stops sounding synthetic
+2. `pip install chatterbox-tts` — clone your own voice
+3. A Pexels key — real footage when a topic needs it
+4. `pip install auto-editor rembg` — if you start filming yourself

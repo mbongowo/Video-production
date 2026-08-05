@@ -1,0 +1,11 @@
+# Core - everything needed for the default pipeline.
+manim==0.20.1          # animation engine (verified on Python 3.11-3.14)
+edge-tts>=6.1.9        # free neural narration, no API key, no account
+numpy>=1.26            # synthesises the music bed
+Pillow>=10.0           # cover checks
+
+# ffmpeg and ffprobe must be on PATH - they are not pip packages. See README.
+
+# Optional extras, only if you opt into them:
+#   piper-tts          fully offline narration (MIT) - see README > Voices
+#   requests           only needed by ccvp/stock.py for Pexels/Pixabay

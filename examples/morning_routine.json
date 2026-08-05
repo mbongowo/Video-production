@@ -1,0 +1,37 @@
+{
+  "id": "morning_routine",
+  "format": "listicle",
+  "title": "4 morning habits that actually stick",
+  "hook": "Four morning habits that actually stick.",
+  "accent": "#0a7d4d",
+  "mood": "calm",
+  "engine": "edge",
+  "voice": "warm-us-male",
+  "brand": "@yourhandle",
+  "points": [
+    {
+      "label": "1. Same wake time",
+      "note": "even on weekends",
+      "say": "One. Wake up at the same time, even on weekends. Your body clock cannot learn a schedule that changes every day."
+    },
+    {
+      "label": "2. Light before phone",
+      "note": "two minutes outside",
+      "say": "Two. Get light before you get your phone. Two minutes outside does more for your energy than scrolling ever will."
+    },
+    {
+      "label": "3. One glass of water",
+      "note": "before coffee",
+      "say": "Three. Drink one glass of water before coffee. You wake up dehydrated, and caffeine on empty makes the crash worse."
+    },
+    {
+      "label": "4. Decide the night before",
+      "note": "one task, written down",
+      "say": "Four. Decide the night before. One task, written down, so the morning is execution and not negotiation."
+    }
+  ],
+  "outro": "Pick one. Give it a week before you add another.",
+  "cta": "Follow for more",
+  "caption": "Four morning habits that actually stick — and the reason each one works.\n\nMost routines fail because they change five things at once. Pick one, give it a week, then add the next.\n\nWhich one are you starting with?",
+  "hashtags": ["#habits", "#morningroutine", "#productivity", "#selfimprovement", "#discipline"]
+}

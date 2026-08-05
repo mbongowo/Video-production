@@ -1,0 +1,40 @@
+{
+  "id": "map_projections",
+  "format": "map",
+  "title": "Every world map you've seen is lying to you",
+  "hook": "Every world map you've seen is lying.",
+  "accent": "#0a7d4d",
+  "projection": "mercator",
+  "mood": "focus",
+  "engine": "edge",
+  "voice": "clear-us-male",
+  "brand": "@yourhandle",
+  "points": [
+    {
+      "label": "On the Mercator map",
+      "note": "Greenland looks the size of Africa",
+      "projection": "mercator",
+      "highlight": ["Greenland"],
+      "highlight2": ["africa"],
+      "say": "On the Mercator map, Greenland looks about the same size as all of Africa."
+    },
+    {
+      "label": "On an equal-area map",
+      "note": "Africa is 14 times larger",
+      "projection": "equalEarth",
+      "highlight": ["Greenland"],
+      "highlight2": ["africa"],
+      "say": "But switch to an equal-area projection, and Africa is fourteen times larger."
+    },
+    {
+      "label": "Every flat map distorts",
+      "note": "the only question is what",
+      "projection": "equalEarth",
+      "say": "Flattening a round planet always distorts something. The only question is what, and who gets shrunk."
+    }
+  ],
+  "outro": "The map is a choice. Someone made it.",
+  "cta": "Follow for more",
+  "caption": "Every world map you've seen is lying — and Mercator is the reason Greenland looks the size of Africa.\n\nFlattening a sphere onto a rectangle always distorts something. Mercator preserves angles, which is why it won for navigation, and inflates area the further you get from the equator.\n\nWhich projection do you think schools should teach?",
+  "hashtags": ["#maps", "#geography", "#cartography", "#mercator", "#didyouknow"]
+}
