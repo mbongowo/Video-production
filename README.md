@@ -137,6 +137,38 @@ that catches more people than any code licence, and the big one:
 > "MIT" — that covers the *library*. Its **weights are CC-BY-NC**, so music it generates
 > cannot be sold. Same pattern for Fish Speech and Coqui XTTS. Always check the *weights*.
 
+## Editing
+
+Three editing modules, all on ffmpeg and Pillow — already dependencies, so nothing extra
+to install. Every function takes paths and returns the destination, so they chain.
+
+```python
+from ccvp import edit_video as ev, edit_audio as ea, edit_image as ei
+
+ev.grade(ev.trim("raw.mp4", "a.mp4", 2, 14), "b.mp4", contrast=1.1, warmth=12)
+ea.voice_chain("narration.wav", "clean.wav")     # the four fixes raw voice needs
+ei.carousel(slides, "out/carousel", brand="@yourhandle")
+```
+
+| `edit_video` | `edit_audio` | `edit_image` |
+|---|---|---|
+| trim, cut_out, concat, crossfade | trim, concat, insert_silence | resize_fit/fill, crop_aspect, rotate |
+| speed, reverse, loop, freeze_frame | **voice_chain**, normalise, compress | brightness, contrast, sharpen, duotone |
+| overlay, picture_in_picture, watermark | denoise, highpass, deess, warmth | **headline**, text, gradient_scrim |
+| chroma_key, split_screen | **duck** (sidechain), mix | watermark, border, rounded, shadow |
+| grade, fade, vignette, blur_background_pad | pitch, speed, strip_silence | **quote_card**, **carousel**, grid |
+| burn_text, progress_bar | detect_silence, waveform | cutout *(needs rembg)*, safe_area_check |
+| to_gif, extract_frames, contact_sheet | extract, replace_audio | |
+
+Three worth knowing about:
+
+- **`ea.voice_chain`** — rumble out, noise down, dynamics evened, loudness set last, in that
+  order. Most raw narration needs exactly this and nothing else.
+- **`ea.duck`** — sidechains music to the voice so the bed drops only while someone speaks.
+  Far better than a fixed low volume, which buries the music *and* still masks words.
+- **`ei.carousel`** — multi-slide posts, numbered and branded. Carousels outperform single
+  images because each swipe is another engagement signal; doing them by hand is why people stop.
+
 ## Optional extras
 
 Everything below is free and open. Install only what you want — see [TOOLBOX.md](TOOLBOX.md).
