@@ -151,7 +151,9 @@ def _dia(text, dest_wav, voice, rate):
     turns and non-verbals like (laughs) or (sighs), which is what makes a two-hander
     or a reaction beat stop sounding like one person reading a list.
 
-    `pip install nari-tts`. Wants a GPU. Write turns straight into the text:
+    Install from source - there is no `nari-tts` package on PyPI:
+        pip install git+https://github.com/nari-labs/dia.git
+    Wants a GPU. Write turns straight into the text:
         "[S1] Wait, you did what? [S2] I know. (laughs) It worked."
     """
     import soundfile as sf  # noqa: PLC0415 - optional backend

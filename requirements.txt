@@ -1,11 +1,27 @@
-# Core - everything needed for the default pipeline.
-manim==0.20.1          # animation engine (verified on Python 3.11-3.14)
+# Core - everything the default pipeline needs.
+manim==0.20.1          # animation engine
 edge-tts>=6.1.9        # free neural narration, no API key, no account
 numpy>=1.26            # synthesises the music bed
-Pillow>=10.0           # cover checks
+Pillow>=10.0           # cover, thumbnail and image editing
 
 # ffmpeg and ffprobe must be on PATH - they are not pip packages. See README.
 
-# Optional extras, only if you opt into them:
-#   piper-tts          fully offline narration (MIT) - see README > Voices
-#   requests           only needed by ccvp/stock.py for Pexels/Pixabay
+# --- Optional voice engines. Install only what you want. ---
+# Verified on Windows / Python 3.14:
+#   piper-tts            offline, MIT. Also needs a .onnx voice - see README
+#   chatterbox-tts       cloning + emotion, MIT. Pulls torch (~2.5 GB)
+#   f5-tts               cloning, MIT. Pulls torch
+#
+# NOT installable on Python 3.14 - use Python 3.11-3.12 for these:
+#   kokoro soundfile     needs spacy/thinc, which have no 3.14 wheels
+#
+# Not on PyPI / not on Windows:
+#   dia        pip install git+https://github.com/nari-labs/dia.git
+#   orpheus    needs vllm, which is effectively Linux-only
+#
+# NOTE: installing any torch-based engine downgrades numpy (2.5 -> 2.4).
+# Verified that manim 0.20.1 still works after that.
+
+# --- Optional extras ---
+#   requests   only for ccvp/stock.py (Pexels / Pixabay / Unsplash)
+#   rembg[cli] only for edit_image.cutout and enhance.remove_background

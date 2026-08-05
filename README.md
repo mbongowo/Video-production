@@ -105,6 +105,24 @@ Set `"engine"` in the spec. All free, none metered.
 | `piper` | Offline neural TTS | MIT | Fastest, no network at all |
 | `vibevoice` | Expressive, multi-speaker | **Research only** | Not licensed for commercial work |
 
+### Which engines actually install where
+
+Tested on **Windows, Python 3.14.4**. The ML ecosystem lags new Python releases by
+months, so your Python version matters more than your hardware here.
+
+| Engine | Verified | Notes |
+|---|---|---|
+| `edge` | ✅ works | Default. No install beyond `pip install edge-tts` |
+| `piper` | ✅ works | `pip install piper-tts` + a `.onnx` voice. 61 MB, fully offline |
+| `chatterbox` | resolves on 3.14 | Pulls torch (~2.5 GB) |
+| `clone` (F5-TTS) | resolves on 3.14 | Pulls torch |
+| `kokoro` | ❌ **not on 3.14** | Needs `spacy`/`thinc`, which have no 3.14 wheels and fail to build. Use **Python 3.11-3.12** |
+| `dia` | ❌ not on PyPI | Install from source: `pip install git+https://github.com/nari-labs/dia.git` |
+| `orpheus` | ❌ **not on Windows** | Depends on `vllm`, which is effectively Linux-only |
+
+**If you want kokoro — the natural-sounding, no-attribution option — build the venv on
+Python 3.11 or 3.12.** Everything else in this package works on any of 3.11-3.14.
+
 ### Voice cloning
 
 ```jsonc
