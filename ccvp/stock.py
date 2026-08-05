@@ -83,6 +83,49 @@ def pixabay_photo(query, dest, key=None):
     return {"file": dest, "credit": hit.get("user"), "url": hit.get("pageURL")}
 
 
+def unsplash_photo(query, dest, key=None):
+    key = key or os.environ.get("UNSPLASH_ACCESS_KEY")
+    if not key:
+        raise RuntimeError("set UNSPLASH_ACCESS_KEY - free at https://unsplash.com/developers")
+    q = urllib.parse.quote(query)
+    data = _json(f"https://api.unsplash.com/search/photos?query={q}"
+                 f"&orientation=portrait&per_page=1", {"Authorization": f"Client-ID {key}"})
+    if not data.get("results"):
+        raise LookupError(f"no Unsplash photo for {query!r}")
+    hit = data["results"][0]
+    _download(hit["urls"]["regular"], dest)
+    return {"file": dest, "credit": hit["user"]["name"], "url": hit["links"]["html"]}
+
+
+def commons_media(query, dest, kind="image"):
+    """Wikimedia Commons - **no API key at all**, and no signup.
+
+    The only source here you can use with zero accounts. Filters to public domain and
+    CC0 only, deliberately skipping CC-BY-SA: share-alike on a media file is a headache
+    you do not want inside a video you sell. Huge archival and educational collection.
+    """
+    mime = "image" if kind == "image" else "video"
+    q = urllib.parse.quote(f"{query} filetype:{'bitmap' if mime == 'image' else 'video'}")
+    data = _json("https://commons.wikimedia.org/w/api.php?action=query&generator=search"
+                 f"&gsrsearch={q}&gsrnamespace=6&gsrlimit=12&prop=imageinfo"
+                 "&iiprop=url|extmetadata|size&iiurlwidth=1600&format=json")
+    pages = (data.get("query") or {}).get("pages") or {}
+    for page in pages.values():
+        info = (page.get("imageinfo") or [{}])[0]
+        meta = info.get("extmetadata") or {}
+        licence = (meta.get("LicenseShortName", {}).get("value") or "").lower()
+        if not any(t in licence for t in ("public domain", "cc0", "pd-")):
+            continue                      # skip CC-BY-SA and anything unclear
+        url = info.get("thumburl") or info.get("url")
+        if not url:
+            continue
+        _download(url, dest)
+        return {"file": dest, "licence": licence,
+                "credit": (meta.get("Artist", {}).get("value") or "").strip(),
+                "url": info.get("descriptionurl")}
+    raise LookupError(f"no public-domain/CC0 Commons media for {query!r}")
+
+
 def credits_block(assets):
     """A creditline you can paste into the caption. Not required by either licence,
     but it costs you one line and it is how these libraries keep existing."""

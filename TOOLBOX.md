@@ -60,8 +60,9 @@ Captions are not optional in practice — most feed video is watched muted. The 
 |---|---|---|
 | **Pexels** | Free, commercial use allowed | adapter `ccvp/stock.py` |
 | **Pixabay** | Free, commercial use allowed | adapter `ccvp/stock.py` |
+| **Unsplash** | Free, commercial use allowed | adapter `ccvp/stock.py` |
+| **Wikimedia Commons** | PD / CC0 only (filtered) | adapter `ccvp/stock.py` — **needs no API key at all** |
 | **Openverse** | CC-licensed search | companion — check each item's licence |
-| **Wikimedia Commons** | Mostly CC/PD | companion — attribution varies per file |
 | **Natural Earth** | **Public domain** | **built in** — `ccvp/geo.py`. No attribution, no share-alike |
 | **NASA imagery** | Public domain | companion — excellent for earth/space topics |
 | **OpenStreetMap** | ODbL | — Not used: attribution + share-alike on derived databases |
@@ -69,6 +70,21 @@ Captions are not optional in practice — most feed video is watched muted. The 
 Pexels and Pixabay need a free API key. There is no paid tier you can hit and no card to
 enter. The animated templates need no imagery at all, which is also the only path with zero
 third-party content risk.
+
+## Local AI video generation — free if you have the GPU
+
+From OpenMontage's zero-key path. All run offline with no per-second billing; all want a
+capable NVIDIA GPU. Use them as **companions** that produce clips you then feed in.
+
+| Model | Notes |
+|---|---|
+| **WAN 2.1** | 1.3B and 14B; the usual first choice for free local text-to-video |
+| **LTX-Video** | Fast, good quality for its size |
+| **HunyuanVideo** | High quality, heavy VRAM |
+| **CogVideo** | 2B and 5B variants |
+
+Check each model's own weights licence before commercial use — several AI video models ship
+under OpenRAIL-style terms with use restrictions, which are *not* the same as MIT.
 
 ## Music
 
