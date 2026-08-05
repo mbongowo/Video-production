@@ -55,7 +55,9 @@ def build(spec_path, deep_qa=False, keep=False):
     print(f"[1/5] narration ({spec.get('engine', 'edge')})")
     clips = voice.narrate(spoken_lines(spec), os.path.join(work, "narration"),
                           voice=spec.get("voice"), rate=spec.get("rate", "-5%"),
-                          engine=spec.get("engine", "edge"))
+                          engine=spec.get("engine", "edge"),
+                          # A commercial build must never quietly fall back to edge.
+                          allow_fallback=not spec.get("commercial"))
 
     # 2. animation -----------------------------------------------------------
     print("[2/5] animation")

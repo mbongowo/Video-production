@@ -1,7 +1,7 @@
+models/
 build/
 out/
 media/
 __pycache__/
 *.pyc
 .venv/
-models/

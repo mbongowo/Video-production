@@ -60,6 +60,24 @@ def duration(path):
     return float(out)
 
 
+def _which(name):
+    """Find an executable, including one installed into the *running* venv.
+
+    `shutil.which` only searches PATH. When someone runs `venv/Scripts/python make.py`
+    without activating the venv - which is completely normal - PATH does not contain
+    the venv's Scripts/bin, so a pip-installed piper.exe sitting right next to the
+    interpreter is invisible. Look there too.
+    """
+    found = shutil.which(name)
+    if found:
+        return found
+    here = os.path.dirname(sys.executable)
+    for candidate in (os.path.join(here, name), os.path.join(here, name + ".exe")):
+        if os.path.exists(candidate):
+            return candidate
+    return None
+
+
 def _to_wav(src, dest_wav):
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", src,
                     "-ar", "16000", "-ac", "1", dest_wav], check=True)
@@ -77,7 +95,7 @@ def _edge(text, dest_wav, voice, rate):
 
 def _piper(text, dest_wav, voice, rate):
     """Offline. `voice` is a path to a .onnx model - see PIPER setup in the README."""
-    exe = shutil.which("piper") or shutil.which("piper.exe")
+    exe = _which("piper")
     if not exe:
         raise RuntimeError("piper is not on PATH - install it or use engine 'edge'")
     if not voice or not os.path.exists(voice):
@@ -228,8 +246,14 @@ ENGINES = {"edge": _edge, "piper": _piper, "kokoro": _kokoro, "dia": _dia,
            "vibevoice": _vibevoice}
 
 
-def say(text, dest_wav, voice=None, rate="-5%", engine="edge"):
-    """Synthesise one line to 16 kHz mono WAV. Returns its duration in seconds."""
+def say(text, dest_wav, voice=None, rate="-5%", engine="edge", allow_fallback=True):
+    """Synthesise one line to 16 kHz mono WAV. Returns its duration in seconds.
+
+    `allow_fallback=False` makes a missing engine an error instead of quietly
+    substituting edge. build.py sets it whenever the spec declares commercial use -
+    silently swapping in edge there would hand you a licence problem while the
+    preflight check, which only sees the *declared* engine, still reported a pass.
+    """
     os.makedirs(os.path.dirname(dest_wav), exist_ok=True)
     fn = ENGINES.get(engine)
     if fn is None:
@@ -237,15 +261,16 @@ def say(text, dest_wav, voice=None, rate="-5%", engine="edge"):
     try:
         fn(text, dest_wav, voice, rate)
     except Exception as e:
-        if engine in ("edge", "clone", "chatterbox"):
-            # Never silently swap a cloned voice for a stock one mid-video.
+        # Never silently swap a cloned voice for a stock one, and never downgrade a
+        # deliberately licence-safe engine to one that is not.
+        if engine in ("edge", "clone", "chatterbox") or not allow_fallback:
             raise
         print(f"    ({engine} unavailable -> falling back to edge: {e})")
         _edge(text, dest_wav, None, rate)
     return duration(dest_wav)
 
 
-def narrate(lines, out_dir, voice=None, rate="-5%", engine="edge"):
+def narrate(lines, out_dir, voice=None, rate="-5%", engine="edge", allow_fallback=True):
     """Voice every beat. Returns [{index, text, file, duration}, ...].
 
     Cached against the exact inputs, because TTS is the slowest step here and you
@@ -271,7 +296,8 @@ def narrate(lines, out_dir, voice=None, rate="-5%", engine="edge"):
         preview = text if len(text) <= 56 else text[:56] + "..."
         print(f"  voicing {i + 1}/{len(lines)}: {preview}")
         clips.append({"index": i, "text": text, "file": dest,
-                      "duration": round(say(text, dest, voice, rate, engine), 3)})
+                      "duration": round(say(text, dest, voice, rate, engine,
+                                           allow_fallback), 3)})
 
     json.dump({"signature": signature, "clips": clips},
               open(manifest, "w", encoding="utf-8"), indent=1)
