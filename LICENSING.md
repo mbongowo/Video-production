@@ -57,6 +57,33 @@ at a `.onnx` model. It runs offline, it is MIT, and nobody's ToS is involved. Se
 `"commercial": true` in your spec and the preflight check will fail the build if you left a
 risky engine selected.
 
+## The trap: "MIT" code with non-commercial weights
+
+**An AI model has two licences, and the permissive one is usually the decoy.** The code is
+MIT or Apache; the *weights* — the part that actually generates your audio or video — often
+are not. Blog posts and even search results routinely quote the code licence and call the
+model commercially safe. It is the single most common way people get this wrong.
+
+| Model | Code | **Weights** | Sell the output? |
+|---|---|---|---|
+| **MusicGen / AudioCraft** | MIT | **CC-BY-NC 4.0** | ❌ Non-commercial. The MIT here covers the library, not the music |
+| **Fish Speech** | Open | **Non-commercial** | ❌ Needs a paid licence for commercial use |
+| **Coqui XTTS-v2** | MPL-2.0 | **CPML** | ❌ Non-commercial |
+| **Stable Audio Open** | — | Stability Community | ⚠️ Free under a revenue threshold, attribution required |
+| **Orpheus** | Apache-2.0 | **Llama 3.2 Community** | ⚠️ Fine for most, but requires "Built with Llama" attribution |
+| **Kokoro-82M** | Apache-2.0 | Apache-2.0 | ✅ Clean |
+| **Dia** | Apache-2.0 | Apache-2.0 | ✅ Clean |
+| **Chatterbox** | MIT | MIT | ✅ Clean |
+| **F5-TTS / OpenVoice V2** | MIT | MIT | ✅ Clean |
+
+**This is why the music bed is synthesised rather than generated.** The obvious upgrade would
+be to plug in MusicGen — but its weights are CC-BY-NC, so every video you sold with that
+music would be infringing. Sine waves from `ccvp/music.py` are unglamorous and completely
+yours. If you want AI-generated music commercially, Stable Audio Open is the nearest option,
+and you still owe Stability attribution and must stay under their revenue threshold.
+
+Before adding any model to this package, find its **weights** licence, not its repo licence.
+
 ## What is deliberately NOT in this package
 
 Both are good tools. Neither can be part of something you sell without consequences.

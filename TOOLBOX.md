@@ -13,6 +13,9 @@ it if you install it) · **companion** (run it separately; do not merge its code
 | **FFmpeg** | LGPL-2.1+ / GPL if built with x264 | **built in** | Mux, cover, format conversion. Install it; don't redistribute it |
 | **Blender** (VSE + 3D) | GPL-2.0+ | companion | Scriptable in Python. Enormous capability; run it as its own app |
 | **Kdenlive / Shotcut** | GPL | companion | GUI editors on the MLT framework, for hand-finishing |
+| **LosslessCut** | GPL-2.0 | companion | Trim/merge without re-encoding — instant, no quality loss |
+| **OpenShot / Olive** | GPL | companion | Simpler NLEs; Olive is good for burned-in styled text |
+| **Subtitle Edit** | GPL | companion | The most complete subtitle tool: waveform, shot changes, format conversion |
 | **MLT `melt`** | LGPL | companion | The scriptable CLI under Kdenlive/Shotcut |
 | **Natron** | GPL-2.0 | companion | Node compositing, if you need After Effects-style work |
 | **OpenMontage** | **AGPL-3.0** | companion | Agentic real-footage production. Genuinely powerful — but AGPL, so never merge it in. See LICENSING.md |
@@ -28,8 +31,11 @@ it if you install it) · **companion** (run it separately; do not merge its code
 | **F5-TTS** | MIT | adapter `clone` | Zero-shot cloning from ~15s of audio |
 | **OpenVoice V2** | MIT | adapter `clone` | Cloning with tone/style control |
 | **Piper** | MIT | adapter `piper` | Fastest, fully offline, tiny |
+| **Dia** (Nari Labs) | Apache-2.0 | adapter `dia` | **Dialogue + non-verbals.** `[S1]`/`[S2]` turns, "(laughs)". Cleanest licence of the expressive models |
+| **Orpheus** (Canopy) | Apache-2.0 code / **Llama 3.2 Community** weights | adapter `orpheus` | Very human prosody, emotion tags. Requires "Built with Llama" attribution |
 | **StyleTTS2** | MIT | — | Very natural; add as an adapter if you want it |
-| **Coqui XTTS-v2** | **CPML, non-commercial** | — | Excluded: cannot be used in work you sell |
+| **Coqui XTTS-v2** | MPL code / **CPML weights** | — | Excluded: weights are non-commercial |
+| **Fish Speech** | Open code / **non-commercial weights** | — | Excluded: needs a paid licence to sell output |
 | **VibeVoice** | **Research only** | adapter (guarded) | Expressive and multi-speaker, but not licensed for commercial use |
 | **ElevenLabs** | SaaS | — | Excluded: paid, and the free tier requires attribution |
 
@@ -62,6 +68,8 @@ Captions are not optional in practice — most feed video is watched muted. The 
 | **Pixabay** | Free, commercial use allowed | adapter `ccvp/stock.py` |
 | **Unsplash** | Free, commercial use allowed | adapter `ccvp/stock.py` |
 | **Wikimedia Commons** | PD / CC0 only (filtered) | adapter `ccvp/stock.py` — **needs no API key at all** |
+| **Mixkit** | Free, no account, no attribution | companion — 4K b-roll, no API |
+| **Videvo** | Free tier, per-clip terms | companion — video-first library |
 | **Openverse** | CC-licensed search | companion — check each item's licence |
 | **Natural Earth** | **Public domain** | **built in** — `ccvp/geo.py`. No attribution, no share-alike |
 | **NASA imagery** | Public domain | companion — excellent for earth/space topics |
@@ -91,6 +99,8 @@ under OpenRAIL-style terms with use restrictions, which are *not* the same as MI
 | Approach | Terms | Status |
 |---|---|---|
 | **Synthesised bed** (`ccvp/music.py`) | **Yours — generated from sine waves** | **built in** |
+| **Stable Audio Open** | Stability Community Licence | companion | Free under a revenue threshold; attribution required |
+| **MusicGen / AudioCraft** | MIT code / **CC-BY-NC weights** | — | **Excluded.** The MIT covers the library, not the music it makes |
 | Free Music Archive / Musopen | Per-track, varies | companion |
 | Epidemic / Artlist | Subscription | — Excluded: paid |
 

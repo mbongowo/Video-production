@@ -7,7 +7,11 @@
     kokoro     (optional)  Kokoro-82M, Apache-2.0. The most natural-sounding fully
                           permissive model - small, fast, beats far larger ones.
     chatterbox (optional)  Resemble AI Chatterbox, MIT. Zero-shot cloning WITH
-                          emotion control. The closest open thing to ElevenLabs.
+                          emotion control - it beat ElevenLabs in blind tests.
+    dia        (optional)  Nari Labs Dia, Apache-2.0. Dialogue and non-verbals
+                          ([S1]/[S2] turns, "(laughs)") - best for two-handers.
+    orpheus    (optional)  Canopy Labs Orpheus. Very human prosody, but inherits
+                          the Llama 3.2 Community Licence - attribution required.
     clone      (optional)  Zero-shot VOICE CLONING from ~15 seconds of reference
                           audio, via F5-TTS or OpenVoice V2. Both MIT, both local.
     vibevoice  (optional)  Expressive, multi-speaker, long-form. RESEARCH ONLY - its
@@ -124,6 +128,50 @@ def _chatterbox(text, dest_wav, voice, rate):
     _to_wav(dest_wav, dest_wav)
 
 
+def _dia(text, dest_wav, voice, rate):
+    """Dia by Nari Labs (Apache-2.0, cleanly). Dialogue-first: it renders [S1]/[S2]
+    turns and non-verbals like (laughs) or (sighs), which is what makes a two-hander
+    or a reaction beat stop sounding like one person reading a list.
+
+    `pip install nari-tts`. Wants a GPU. Write turns straight into the text:
+        "[S1] Wait, you did what? [S2] I know. (laughs) It worked."
+    """
+    import soundfile as sf  # noqa: PLC0415 - optional backend
+    from dia.model import Dia  # noqa: PLC0415
+
+    model = _dia.__dict__.get("_m")
+    if model is None:
+        model = _dia.__dict__["_m"] = Dia.from_pretrained("nari-labs/Dia-1.6B")
+    sf.write(dest_wav, model.generate(text), 44100)
+    _to_wav(dest_wav, dest_wav)
+
+
+def _orpheus(text, dest_wav, voice, rate):
+    """Orpheus by Canopy Labs. Very human prosody, with emotion tags like <laugh>.
+
+    LICENCE CARE: the code is Apache-2.0 but the model is built on a Llama 3.2
+    backbone, so it inherits the **Llama 3.2 Community License** - which requires a
+    "Built with Llama" attribution and carries a large-scale-user clause. That is
+    permissive enough for most people but it is NOT plain Apache-2.0. If you want
+    zero attribution obligations, use kokoro or dia instead.
+
+    `pip install orpheus-speech`. `voice` is a preset like "tara".
+    """
+    import soundfile as sf  # noqa: PLC0415 - optional backend
+    from orpheus_tts import OrpheusModel  # noqa: PLC0415
+
+    model = _orpheus.__dict__.get("_m")
+    if model is None:
+        model = _orpheus.__dict__["_m"] = OrpheusModel(
+            model_name="canopylabs/orpheus-tts-0.1-finetune-prod")
+    chunks = list(model.generate_speech(prompt=text, voice=voice or "tara"))
+    if not chunks:
+        raise RuntimeError("orpheus returned no audio")
+    import numpy as np  # noqa: PLC0415
+    sf.write(dest_wav, np.concatenate(chunks), 24000)
+    _to_wav(dest_wav, dest_wav)
+
+
 def _clone(text, dest_wav, voice, rate):
     """Zero-shot voice cloning from a short reference recording. Free, local, MIT.
 
@@ -175,8 +223,9 @@ def _vibevoice(text, dest_wav, voice, rate):
         raise RuntimeError("vibevoice produced no file")
 
 
-ENGINES = {"edge": _edge, "piper": _piper, "kokoro": _kokoro,
-           "chatterbox": _chatterbox, "clone": _clone, "vibevoice": _vibevoice}
+ENGINES = {"edge": _edge, "piper": _piper, "kokoro": _kokoro, "dia": _dia,
+           "orpheus": _orpheus, "chatterbox": _chatterbox, "clone": _clone,
+           "vibevoice": _vibevoice}
 
 
 def say(text, dest_wav, voice=None, rate="-5%", engine="edge"):

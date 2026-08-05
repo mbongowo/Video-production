@@ -98,7 +98,9 @@ Set `"engine"` in the spec. All free, none metered.
 |---|---|---|---|
 | `edge` *(default)* | ~400 Microsoft neural voices | GPL-3.0 tool, MS endpoint | No key. **Not for commercial use** — see LICENSING.md |
 | `kokoro` | Kokoro-82M | Apache-2.0 | **Most natural fully-permissive model.** `pip install kokoro soundfile` |
-| `chatterbox` | Resemble AI Chatterbox | MIT | **Cloning + emotion control.** Closest open thing to ElevenLabs |
+| `chatterbox` | Resemble AI Chatterbox | MIT | **Cloning + emotion control.** Beat ElevenLabs in blind tests |
+| `dia` | Nari Labs Dia | Apache-2.0 | Dialogue + non-verbals: `[S1]`/`[S2]` turns, "(laughs)" |
+| `orpheus` | Canopy Labs Orpheus | Apache-2.0 / Llama weights | Very human prosody. Needs "Built with Llama" attribution |
 | `clone` | F5-TTS or OpenVoice V2 | MIT | Zero-shot clone from ~15s of reference audio |
 | `piper` | Offline neural TTS | MIT | Fastest, no network at all |
 | `vibevoice` | Expressive, multi-speaker | **Research only** | Not licensed for commercial work |
@@ -128,8 +130,12 @@ the wider ecosystem would contaminate that and are deliberately excluded.
 ```
 
 **Read [LICENSING.md](LICENSING.md).** It covers why `edge` is fine for testing but not for
-selling, why OpenMontage (AGPL-3.0) and VibeVoice (research-only) are excluded, and the font
-trap that catches more people than any code licence.
+selling, why OpenMontage (AGPL-3.0) and VibeVoice (research-only) are excluded, the font trap
+that catches more people than any code licence, and the big one:
+
+> **An AI model has two licences, and the permissive one is usually the decoy.** MusicGen is
+> "MIT" — that covers the *library*. Its **weights are CC-BY-NC**, so music it generates
+> cannot be sold. Same pattern for Fish Speech and Coqui XTTS. Always check the *weights*.
 
 ## Optional extras
 
