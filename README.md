@@ -115,11 +115,30 @@ months, so your Python version matters more than your hardware here.
 |---|---|---|
 | `edge` | ✅ works | Default. No install beyond `pip install edge-tts` |
 | `piper` | ✅ works | `pip install piper-tts` + a `.onnx` voice. 61 MB, fully offline |
-| `kokoro` | ✅ **works on 3.12** | Verified: 5.25 s of audio in 46 s on CPU. ❌ on 3.14 - `spacy`/`thinc` have no 3.14 wheels |
-| `chatterbox` | ❌ on 3.14 | `resemble-perth`'s watermarker resolves to `None`, so model loading raises. Should work on 3.12 |
-| `clone` (F5-TTS) | resolves on 3.14 | Pulls torch; not run end to end here |
+| `kokoro` | ✅ **verified** | 5.25 s audio in 46 s on CPU. Needs **3.11-3.12** - `spacy`/`thinc` have no 3.14 wheels |
+| `chatterbox` | ✅ **verified** | Needs `pip install "setuptools<81"` (see below). On GPU: 36 s model load, then **~1.2x real-time** |
+| `clone` (F5-TTS) | resolves, not run | Pulls torch |
 | `dia` | ❌ not on PyPI | Install from source: `pip install git+https://github.com/nari-labs/dia.git` |
 | `orpheus` | ❌ **not on Windows** | Depends on `vllm`, which is effectively Linux-only |
+
+### Two gotchas that cost real time
+
+**1. Chatterbox needs `pip install "setuptools<81"`.** Its `perth` watermarker imports
+`pkg_resources`, which setuptools 81 removed. Without the pin,
+`perth.PerthImplicitWatermarker` silently becomes `None` and model loading dies with
+`TypeError: 'NoneType' object is not callable` — an error mentioning neither setuptools
+nor pkg_resources, so it is very easy to misdiagnose as a Python-version problem.
+
+**2. Chatterbox pins different versions per Python, and it matters:**
+
+```
+python <  3.13:  numpy<2.0.0, torch==2.6.0    ← downgrades a CUDA torch to CPU
+python >= 3.13:  numpy>=2.0.0, torch>=2.9.0   ← coexists with anything
+```
+
+On 3.12 it will quietly replace `torch 2.13.0+cu130` with `2.6.0+cpu` and trip manim's
+`numpy>=2.1` requirement. manim still renders under numpy 1.26.4 (verified), and you can
+get the GPU back with `torch==2.6.0+cu126` — the CUDA build of the exact version it pins.
 
 ### The short version: use Python 3.12 for voice work
 
