@@ -158,6 +158,19 @@ def _chatterbox(text, dest_wav, voice, rate):
     here. `pip install chatterbox-tts`. Wants a GPU; works on CPU, slowly.
 
     `voice` is a reference .wav to clone; omit it for the stock voice.
+
+    REQUIRES `pip install "setuptools<81"`. Chatterbox loads Resemble's `perth`
+    watermarker, which imports `pkg_resources`; setuptools 81 removed that module, so
+    without the pin `perth.PerthImplicitWatermarker` silently becomes None and model
+    loading dies with "TypeError: 'NoneType' object is not callable". The error names
+    neither setuptools nor pkg_resources, which makes it very easy to misdiagnose as a
+    Python-version problem.
+
+    VERSION PINS TO KNOW: on Python < 3.13 chatterbox forces numpy<2 and torch==2.6.0,
+    which downgrades a CUDA torch to CPU and trips manim's numpy>=2.1 requirement
+    (manim still renders in practice). On Python >= 3.13 it accepts numpy>=2 and
+    torch>=2.9 and coexists cleanly - so 3.14 is the better host for THIS engine, even
+    though kokoro needs 3.12.
     """
     import torchaudio  # noqa: PLC0415 - optional backend
     from chatterbox.tts import ChatterboxTTS  # noqa: PLC0415

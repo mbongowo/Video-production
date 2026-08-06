@@ -9,7 +9,10 @@ Pillow>=10.0           # cover, thumbnail and image editing
 # --- Optional voice engines. Install only what you want. ---
 # Verified on Windows / Python 3.14:
 #   piper-tts            offline, MIT. Also needs a .onnx voice - see README
-#   chatterbox-tts       cloning + emotion, MIT. Pulls torch (~2.5 GB)
+#   chatterbox-tts       cloning + emotion, MIT. Pulls torch (~2.5 GB).
+#                        ALSO needs: pip install "setuptools<81"
+#                        (its perth watermarker imports pkg_resources,
+#                         which setuptools 81 removed)
 #   f5-tts               cloning, MIT. Pulls torch
 #
 # NOT installable on Python 3.14 - use Python 3.11-3.12 for these:
