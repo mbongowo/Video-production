@@ -79,6 +79,22 @@ def _which(name):
 
 
 def _to_wav(src, dest_wav):
+    """Normalise any audio to 16 kHz mono WAV.
+
+    ffmpeg cannot read and write the same path in one pass - it exits with
+    "Output ... same as Input ... - exiting". When a model has already written to
+    the destination, stage through a temp file rather than converting in place.
+    """
+    if os.path.abspath(src) == os.path.abspath(dest_wav):
+        staged = dest_wav + ".raw"
+        os.replace(dest_wav, staged)
+        try:
+            subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", staged,
+                            "-ar", "16000", "-ac", "1", dest_wav], check=True)
+        finally:
+            if os.path.exists(staged):
+                os.remove(staged)
+        return
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", src,
                     "-ar", "16000", "-ac", "1", dest_wav], check=True)
 
@@ -86,9 +102,19 @@ def _to_wav(src, dest_wav):
 # ---- engines ----------------------------------------------------------------
 def _edge(text, dest_wav, voice, rate):
     tmp = dest_wav + ".mp3"
-    subprocess.run([sys.executable, "-m", "edge_tts", "--voice", resolve_voice(voice),
-                    "--rate", rate, "--text", text, "--write-media", tmp],
-                   check=True, capture_output=True)
+    # `--rate=-5%`, not `--rate -5%`. A rate like "-5%" starts with a dash, so argparse
+    # reads it as another option and exits 2 before speaking a word. The equals form is
+    # the only safe way to pass a negative value.
+    proc = subprocess.run(
+        [sys.executable, "-m", "edge_tts", "--voice", resolve_voice(voice),
+         f"--rate={rate}", "--text", text, "--write-media", tmp],
+        capture_output=True, text=True)
+    if proc.returncode != 0:
+        # Surface the real reason - swallowing stderr turns every failure into an
+        # opaque "returned non-zero exit status" with nothing to act on.
+        detail = (proc.stderr or proc.stdout or "").strip().splitlines()
+        raise RuntimeError(f"edge-tts failed (exit {proc.returncode}): "
+                           + (detail[-1] if detail else "no output"))
     _to_wav(tmp, dest_wav)
     os.remove(tmp)
 

@@ -44,7 +44,8 @@ music still carries terms and still gets videos muted.
 ## Install
 
 ```bash
-python -m venv .venv && .venv/Scripts/activate     # Linux/macOS: source .venv/bin/activate
+# Use Python 3.12 if you want the good voice engines - see the table below.
+py -3.12 -m venv .venv && .venv/Scripts/activate   # Linux/macOS: source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
@@ -114,9 +115,9 @@ months, so your Python version matters more than your hardware here.
 |---|---|---|
 | `edge` | ✅ works | Default. No install beyond `pip install edge-tts` |
 | `piper` | ✅ works | `pip install piper-tts` + a `.onnx` voice. 61 MB, fully offline |
-| `chatterbox` | ❌ **installs, won't run on 3.14** | `resemble-perth`'s watermarker resolves to `None`, so model loading raises. Needs **3.11-3.12** |
+| `kokoro` | ✅ **works on 3.12** | Verified: 5.25 s of audio in 46 s on CPU. ❌ on 3.14 - `spacy`/`thinc` have no 3.14 wheels |
+| `chatterbox` | ❌ on 3.14 | `resemble-perth`'s watermarker resolves to `None`, so model loading raises. Should work on 3.12 |
 | `clone` (F5-TTS) | resolves on 3.14 | Pulls torch; not run end to end here |
-| `kokoro` | ❌ **not on 3.14** | Needs `spacy`/`thinc`, which have no 3.14 wheels and fail to build. Needs **3.11-3.12** |
 | `dia` | ❌ not on PyPI | Install from source: `pip install git+https://github.com/nari-labs/dia.git` |
 | `orpheus` | ❌ **not on Windows** | Depends on `vllm`, which is effectively Linux-only |
 
