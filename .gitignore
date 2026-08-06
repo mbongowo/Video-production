@@ -5,3 +5,6 @@ media/
 __pycache__/
 *.pyc
 .venv/
+
+# docs/ holds the README banner, GIF previews and showcase MP4s - keep them.
+!docs/

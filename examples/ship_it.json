@@ -1,0 +1,29 @@
+{
+  "id": "ship_it",
+  "format": "quote",
+  "title": "The work you don't ship doesn't count",
+  "hook": "The work you don't ship doesn't count.",
+  "accent": "#c62828",
+  "mood": "uplifting",
+  "engine": "edge",
+  "voice": "bright-us-female",
+  "brand": "@yourhandle",
+  "points": [
+    {
+      "note": "A finished draft beats a perfect outline.",
+      "say": "A finished draft beats a perfect outline."
+    },
+    {
+      "note": "Nobody grades the version in your head.",
+      "say": "Nobody grades the version in your head."
+    },
+    {
+      "note": "Shipping is the only thing that generates feedback.",
+      "say": "Shipping is the only thing that generates real feedback. Everything before that is a guess."
+    }
+  ],
+  "outro": "Publish it. Fix it in public.",
+  "cta": "Follow for more",
+  "caption": "The work you don't ship doesn't count.\n\nA finished draft beats a perfect outline. Nobody grades the version in your head. And shipping is the only thing that generates real feedback — everything before that is a guess.\n\nWhat are you sitting on right now?",
+  "hashtags": ["#shipit", "#creativity", "#buildinpublic", "#writing", "#makers"]
+}

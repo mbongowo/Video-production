@@ -115,6 +115,22 @@ class Short(Scene):
         self._write_timeline()
 
     # ---- layouts ------------------------------------------------------------
+    def place_body(self, group, buff=0.55):
+        """Hang the body off the hook, shrinking it if it would run off the bottom.
+
+        Never position the body at a fixed y. A three-line hook reaches much further
+        down the frame than a one-line hook, and a fixed offset puts the first row
+        straight through it - which is exactly what shipped in the myth layout.
+        """
+        if not len(group):
+            return group
+        floor = -config.frame_height / 2 + 0.9
+        available = (self.hook.get_bottom()[1] - buff) - floor
+        if group.height > available:
+            group.scale_to_fit_height(max(1.0, available))
+        group.next_to(self.hook, DOWN, buff=buff)
+        return group
+
     def _rows(self, points, accent):
         """Build the body rows once, fitted to the frame, ready to reveal."""
         rows = VGroup()
@@ -130,9 +146,7 @@ class Short(Scene):
         rows.arrange(DOWN, buff=0.55, aligned_edge=LEFT)
         if rows.width > SAFE_W:
             rows.scale_to_fit_width(SAFE_W)
-        if rows.height > 8.4:          # keep clear of the hook and the bottom edge
-            rows.scale_to_fit_height(8.4)
-        rows.move_to(DOWN * 0.6)
+        self.place_body(rows)
         return rows
 
     def _listicle(self, points, beats, accent):
@@ -171,9 +185,7 @@ class Short(Scene):
         panels.arrange(DOWN, buff=0.75, aligned_edge=LEFT)
         if panels.width > SAFE_W:
             panels.scale_to_fit_width(SAFE_W)
-        if panels.height > 8.4:
-            panels.scale_to_fit_height(8.4)
-        panels.move_to(DOWN * 0.6)
+        self.place_body(panels)
         for panel, b in zip(panels, beats):
             self.beat([FadeIn(panel, shift=UP * 0.25)], b, run_time=0.5)
 
@@ -223,9 +235,7 @@ class Short(Scene):
                  color=INK, weight=BOLD, line_spacing=1.12)
             for p in points
         ]).arrange(DOWN, buff=0.7)
-        if lines.height > 8.0:
-            lines.scale_to_fit_height(8.0)
-        lines.move_to(DOWN * 0.4)
+        self.place_body(lines, buff=0.7)
         bar = Line(UP * 0.6, DOWN * 0.6, color=accent, stroke_width=6)
         bar.set_height(lines.height).next_to(lines, LEFT, buff=0.35)
         clamp_x(bar)

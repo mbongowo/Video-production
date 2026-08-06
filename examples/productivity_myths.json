@@ -1,0 +1,37 @@
+{
+  "id": "productivity_myths",
+  "format": "myth",
+  "title": "3 productivity myths that are costing you hours",
+  "hook": "Three productivity myths that cost you hours.",
+  "accent": "#1565c0",
+  "mood": "focus",
+  "engine": "edge",
+  "voice": "clear-us-male",
+  "brand": "@yourhandle",
+  "points": [
+    {
+      "label": "MYTH",
+      "note": "Multitasking gets more done.",
+      "say": "Myth one. Multitasking gets more done."
+    },
+    {
+      "label": "REALITY",
+      "note": "Every switch costs you up to 20 minutes of focus.",
+      "say": "Reality. Every context switch costs up to twenty minutes of focus. You are not doing two things at once, you are doing both badly."
+    },
+    {
+      "label": "MYTH",
+      "note": "A longer to-do list means a more productive day.",
+      "say": "Myth two. A longer to-do list means a more productive day."
+    },
+    {
+      "label": "REALITY",
+      "note": "Three real priorities beat twenty vague ones.",
+      "say": "Reality. Three real priorities beat twenty vague ones. A long list is procrastination that looks like planning."
+    }
+  ],
+  "outro": "Cut the list. Protect the focus.",
+  "cta": "Follow for more",
+  "caption": "Three productivity myths that quietly cost you hours — and what the research actually says.\n\nMultitasking isn't doing two things at once, it's doing both badly. And a twenty-item list is usually procrastination wearing a suit.\n\nWhich one were you guilty of this week?",
+  "hashtags": ["#productivity", "#focus", "#deepwork", "#worksmarter", "#timemanagement"]
+}
