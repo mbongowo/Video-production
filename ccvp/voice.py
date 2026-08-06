@@ -1,4 +1,4 @@
-"""Narration, with four interchangeable engines. All free, none metered.
+"""Narration, with eight interchangeable engines. All free, none metered.
 
     edge       (default)  Microsoft Edge neural TTS. ~400 voices in many languages
                           and accents. No key, no account, no cost. Needs net.
