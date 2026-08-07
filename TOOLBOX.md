@@ -18,7 +18,7 @@ it if you install it) · **companion** (run it separately; do not merge its code
 | **Subtitle Edit** | GPL | companion | The most complete subtitle tool: waveform, shot changes, format conversion |
 | **MLT `melt`** | LGPL | companion | The scriptable CLI under Kdenlive/Shotcut |
 | **Natron** | GPL-2.0 | companion | Node compositing, if you need After Effects-style work |
-| **OpenMontage** | **AGPL-3.0** | companion | Agentic real-footage production. Genuinely powerful — but AGPL, so never merge it in. See LICENSING.md |
+| **OpenMontage** | **AGPL-3.0** | companion | Agentic real-footage production. Genuinely powerful — but AGPL, so never merge it in. See COMMERCIAL-USE.md |
 | **Remotion** | Source-available | — | Excluded: needs a paid company licence beyond 3 people |
 
 ## Voice

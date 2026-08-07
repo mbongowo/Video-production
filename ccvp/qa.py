@@ -65,7 +65,7 @@ def luma(path):
     return max(vals) if vals else 0.0
 
 
-# Voice engines that are not safe for work you intend to sell. See LICENSING.md.
+# Voice engines that are not safe for work you intend to sell. See COMMERCIAL-USE.md.
 RISKY_FOR_COMMERCIAL = {
     "edge": ("edge-tts is GPL-3.0 and drives Microsoft's Read Aloud endpoint "
              "unofficially - Microsoft does not offer it for commercial use"),
@@ -85,7 +85,7 @@ def preflight(spec, cover_path=None):
         if engine in RISKY_FOR_COMMERCIAL:
             problems.append(
                 f"commercial:true but engine is {engine!r} - {RISKY_FOR_COMMERCIAL[engine]}. "
-                f"Use \"engine\": \"piper\" (MIT, offline). See LICENSING.md")
+                f"Use \"engine\": \"piper\" (MIT, offline). See COMMERCIAL-USE.md")
 
     title = (spec.get("title") or "").strip()
     if not title:

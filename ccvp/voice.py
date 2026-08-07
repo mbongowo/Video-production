@@ -243,7 +243,7 @@ def _clone(text, dest_wav, voice, rate):
 
     Runs on CPU but wants a GPU: expect a few seconds per line with one, a few
     minutes without. Deliberately NOT Coqui XTTS, whose model licence forbids
-    commercial use - see LICENSING.md.
+    commercial use - see COMMERCIAL-USE.md.
 
     Only clone a voice you own or have explicit permission to use.
     """

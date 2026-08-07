@@ -12,7 +12,7 @@
   <a href="#formats">Formats</a> &nbsp;·&nbsp;
   <a href="#voices">Voices</a> &nbsp;·&nbsp;
   <a href="#editing">Editing</a> &nbsp;·&nbsp;
-  <a href="LICENSING.md">Licensing</a> &nbsp;·&nbsp;
+  <a href="COMMERCIAL-USE.md">Licensing</a> &nbsp;·&nbsp;
   <a href="TOOLBOX.md">Toolbox</a>
 </p>
 
@@ -260,7 +260,7 @@ Yes — on the right configuration. The package is MIT and the videos are yours.
 { "commercial": true, "engine": "kokoro" }   // or piper / chatterbox / clone
 ```
 
-**Read [LICENSING.md](LICENSING.md).** It covers why `edge` is fine for testing but not for
+**Read [COMMERCIAL-USE.md](COMMERCIAL-USE.md).** It covers why `edge` is fine for testing but not for
 selling, why OpenMontage (AGPL-3.0), VibeVoice (research-only), Coqui XTTS (non-commercial
 weights) and Remotion (paid company licence) are deliberately excluded, the font trap that
 catches more people than any code licence, and the big one:
@@ -274,5 +274,5 @@ catches more people than any code licence, and the big one:
 ## Licence
 
 MIT — see [LICENSE](LICENSE). Third-party tools carry their own terms;
-[LICENSING.md](LICENSING.md) breaks them down per tool with a commercial verdict for each, and
+[COMMERCIAL-USE.md](COMMERCIAL-USE.md) breaks them down per tool with a commercial verdict for each, and
 [TOOLBOX.md](TOOLBOX.md) maps every free tool in the wider ecosystem to where it fits.

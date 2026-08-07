@@ -12,7 +12,7 @@ politely instead of exploding.
     faster-whisper MIT            transcription for captions (see ccvp/captions.py)
 
 All of these are separate executables. Calling them does not affect this package's
-MIT licence - see LICENSING.md.
+MIT licence - see COMMERCIAL-USE.md.
 """
 
 import os
