@@ -143,8 +143,19 @@ def _kokoro(text, dest_wav, voice, rate):
     import soundfile as sf  # noqa: PLC0415 - optional backend
     from kokoro import KPipeline  # noqa: PLC0415
 
-    pipe = _kokoro.__dict__.setdefault("_p", KPipeline(lang_code="a"))
-    chunks = [audio for _, _, audio in pipe(text, voice=voice or "af_heart")]
+    # Kokoro encodes the language in the first letter of the voice id: a American
+    # English, b British English, e Spanish, f French, h Hindi, i Italian, j Japanese,
+    # p Portuguese, z Chinese. This used to be hardcoded to "a" with a single memoised
+    # pipeline, which meant a non-English voice could not be selected at all: the text
+    # was phonemised as American English whatever voice id was passed. That silently
+    # blocked the French track. Cache one pipeline per language rather than one overall.
+    voice = voice or "af_heart"
+    lang_code = voice[0] if voice[:1].isalpha() else "a"
+    cache = _kokoro.__dict__.setdefault("_pipes", {})
+    if lang_code not in cache:
+        cache[lang_code] = KPipeline(lang_code=lang_code)
+    pipe = cache[lang_code]
+    chunks = [audio for _, _, audio in pipe(text, voice=voice)]
     if not chunks:
         raise RuntimeError("kokoro returned no audio")
     import numpy as np  # noqa: PLC0415
