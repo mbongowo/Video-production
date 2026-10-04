@@ -10,6 +10,7 @@ it if you install it) · **companion** (run it separately; do not merge its code
 | Tool | Licence | Status | Notes |
 |---|---|---|---|
 | **Manim Community** | MIT | **built in** | The animation engine. `ccvp/templates.py` |
+| **HyperFrames** (HeyGen) | Apache-2.0 | adapter `ccvp/hyperframes.py` | HTML + GSAP to video. Kinetic titles, cards, callouts, captions; transparent WebM overlays. Node 22+, local render only |
 | **FFmpeg** | LGPL-2.1+ / GPL if built with x264 | **built in** | Mux, cover, format conversion. Install it; don't redistribute it |
 | **Blender** (VSE + 3D) | GPL-2.0+ | companion | Scriptable in Python. Enormous capability; run it as its own app |
 | **Kdenlive / Shotcut** | GPL | companion | GUI editors on the MLT framework, for hand-finishing |
